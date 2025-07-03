@@ -11,11 +11,11 @@ def create_app():
     from app.whatsapp import WhatsAppClient
     from app.ai import AIClient 
 
-    app.whatsapp_client = WhatsAppClient(app.config["WHATSAPP_ACCESS_TOKEN"])
-    app.ai_client = AIClient(app.config["OPENAI_API_KEY"])
+    app.whatsapp_client = WhatsAppClient(app.config["WHATSAPP_WEBHOOK_VERIFY_TOKEN"])
+    app.ai_client = AIClient(app.config["OPENAI_API_KEY"]) 
 
     # Blueprints/routes creation
-    from app.routes import example_blueprint   
-    app.register_blueprint(example_blueprint)   
+    from app.routes import webhook_verification_blueprint  
+    app.register_blueprint(webhook_verification_blueprint)   
 
     return app 
