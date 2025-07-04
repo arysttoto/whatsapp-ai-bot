@@ -6,3 +6,10 @@ class WhatsAppClient:
         if request.args.get("hub.verify_token") == self.access_token:
             return request.args.get("hub.challenge")
         return "Authentication failed. Invalid Token."
+    def unpack_messages(self, json_request): 
+        messages = [] 
+        try: 
+            messages = json_request["entry"][0]["changes"][0]["messages"] 
+        except Exception: 
+            pass
+        return messages 

@@ -11,4 +11,7 @@ def webhook_whatsapp():
     # made for whatsapp checking webhooks
     if request.method == "GET":
         return current_app.whatsapp_client.verify_webhook(request) 
-    
+    # unpack the webhook notifications
+    messages = current_app.whatsapp_client.unpack_messages(request.get_json()) 
+    for message in messages: 
+        current_app.ai_client.
