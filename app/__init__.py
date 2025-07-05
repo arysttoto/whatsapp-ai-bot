@@ -1,6 +1,6 @@
-from flask import Flask
-from app.config import Config 
-
+from flask import Flask   
+from app.config import Config   
+   
 
 # Lazy imports are a very good practice in modular Flask applications, don't move them out of the function to avoid circular imports. 
 def create_app():
