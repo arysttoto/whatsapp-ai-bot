@@ -14,4 +14,5 @@ def webhook_whatsapp():
     # unpack the webhook notifications
     messages = current_app.whatsapp_client.unpack_messages(request.get_json()) 
     for message in messages: 
-        current_app.ai_client.
+        reply = current_app.ai_client.reply_to_message(message) 
+        current_app.whatsapp_client.

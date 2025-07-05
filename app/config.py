@@ -8,4 +8,6 @@ load_dotenv()
 class Config:
     WHATSAPP_WEBHOOK_VERIFY_TOKEN = os.getenv("WHATSAPP_WEBHOOK_VERIFY_TOKEN", "your-whatsapp-webhook-verify-token")
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "your-openai-api-key")
+    OPENAI_MODEL = os.getenv("OPENAI_MODEL", "your-openai-model")
+    OPENAI_TEMPERATURE = os.getenv("OPENAI_TEMPERATURE", 'your-openai-temperature') 
     # Add more configuration variables as needed

@@ -1,5 +1,6 @@
 from app.ai_prompts import default_prompt
 import openai 
+from flask import current_app 
 
 
 class AIClient:
@@ -11,9 +12,9 @@ class AIClient:
         prompt = default_prompt.format(message_text=message) 
         try:
             response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
+                model=current_app.config["OPENAI_MODEL"],
                 messages=[{"role": "user", "content": prompt}],
-                temperature=0.6,
+                temperature=current_app.config["OPENAI_TEMPERATURE"],
                 max_tokens=150,
             )
             return response["choices"][0]["message"]["content"].strip()

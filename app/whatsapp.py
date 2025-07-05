@@ -13,3 +13,5 @@ class WhatsAppClient:
         except Exception: 
             pass
         return messages 
+    def send_message(seld, message_text): 
+        
