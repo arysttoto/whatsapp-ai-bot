@@ -1,20 +1,22 @@
 from app.ai_prompts import default_prompt
 import openai 
-from flask import current_app 
 
 
 class AIClient:
-    def __init__(self, api_key):
+    def __init__(self, api_key, model, temperature):
         self.api_key = api_key
         openai.api_key = self.api_key
-    # Add methods for sending prompts and receiving responses
+        self.model = model 
+        self.temperature = temperature 
+
+
     def generate_reply(self, message): 
         prompt = default_prompt.format(message_text=message) 
         try:
             response = openai.ChatCompletion.create(
-                model=current_app.config["OPENAI_MODEL"],
+                model=self.model,
                 messages=[{"role": "user", "content": prompt}],
-                temperature=current_app.config["OPENAI_TEMPERATURE"],
+                temperature=self.temperature,
                 max_tokens=150,
             )
             return response["choices"][0]["message"]["content"].strip()

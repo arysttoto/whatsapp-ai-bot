@@ -17,5 +17,5 @@ def webhook_whatsapp():
     for message in messages: 
         parsed_message = message["text"]["body"] 
         reply_message = current_app.ai_client.generate_reply(parsed_message)  
-        receiver_phone_number = message["from"] 
-        current_app.whatsapp_client.send_message(reply_message, receiver_phone_number)  
+        receiver_id = message["id"] 
+        current_app.whatsapp_client.send_message(reply_message, receiver_id)  
