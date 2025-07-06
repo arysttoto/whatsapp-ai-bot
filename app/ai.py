@@ -8,7 +8,7 @@ class AIClient:
         self.api_key = api_key
         openai.api_key = self.api_key
     # Add methods for sending prompts and receiving responses
-    def reply_to_message(self, message): 
+    def generate_reply(self, message): 
         prompt = default_prompt.format(message_text=message) 
         try:
             response = openai.ChatCompletion.create(
