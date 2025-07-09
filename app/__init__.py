@@ -1,6 +1,7 @@
 from flask import Flask, jsonify 
 from app.config import Config   
 import logging
+from app.errors import RetryableError
 
 # Lazy imports are a very good practice in modular Flask applications, don't move them out of the function to avoid circular imports. 
 def create_app():
@@ -22,6 +23,11 @@ def create_app():
     def handle_exception(e):
         app.logger.exception("Unhandled exception:")
         return jsonify({"error": str(e)}), 500
+
+    @app.errorhandler(RetryableError)
+    def handle_retryable_error(e):
+        app.logger.warning(f"Retryable error: {e}")
+        return jsonify({"error": str(e)}), 503
 
     @app.errorhandler(PermissionError)
     def handle_permission_error(e):
