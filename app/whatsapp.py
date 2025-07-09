@@ -12,7 +12,7 @@ class WhatsAppClient:
     # Methods for sending messages, verifying webhooks, etc.
     def verify_webhook(self, request): 
         if request.args.get("hub.verify_token") == self.webhook_verify_token:
-            return request.args.get("hub.challenge")
+            return request.args.get("hub.challenge") 
         return "Authentication failed. Invalid Token."
     
 

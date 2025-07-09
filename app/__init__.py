@@ -1,12 +1,38 @@
-from flask import Flask   
+from flask import Flask, jsonify 
 from app.config import Config   
-   
+import logging
 
 # Lazy imports are a very good practice in modular Flask applications, don't move them out of the function to avoid circular imports. 
 def create_app():
     app = Flask(__name__) 
     app.config.from_object(Config)
 
+    # Logging config
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            logging.StreamHandler(),
+            logging.FileHandler("logs/app.log")
+        ]
+    ) 
+
+    # Register global error handlers
+    @app.errorhandler(Exception)
+    def handle_exception(e):
+        app.logger.exception("Unhandled exception:")
+        return jsonify({"error": str(e)}), 500
+
+    @app.errorhandler(PermissionError)
+    def handle_permission_error(e):
+        app.logger.warning(f"Permission error: {e}")
+        return jsonify({"error": str(e)}), 403
+
+    @app.errorhandler(ValueError)
+    def handle_value_error(e):
+        app.logger.warning(f"Validation error: {e}")
+        return jsonify({"error": str(e)}), 400
+    
     # Dependency injections, services - AI, Whatsapp client
     from app.whatsapp import WhatsAppClient
     from app.ai import AIClient 
