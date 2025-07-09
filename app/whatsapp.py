@@ -25,6 +25,8 @@ class WhatsAppClient:
     
 
     def send_message(self, message_text, receiver_id): 
+        from flask import current_app
+
         url = f"{self.api_url}/{self.phone_number_id}/messages"
 
         headers = {
@@ -46,8 +48,9 @@ class WhatsAppClient:
             if not response.ok: 
                 if 500 <= response.status_code < 600:
                     raise RetryableError(f"WhatsApp API 5xx error: {response.status_code}")
-                else:
-                    raise Exception(f"WhatsApp API non-retryable error: {response.status_code}") 
-
+                    
+                current_app.logger.warning(
+                    f"WhatsApp API non-retryable error ({response.status_code}): {response.text}"
+                ) 
         except requests.RequestException as error: 
             raise RetryableError(f"Error sending message: {error}") 

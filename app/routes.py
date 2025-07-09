@@ -1,11 +1,11 @@
-from flask import Blueprint, current_app, request
+from flask import Blueprint, current_app, request, jsonify
 
 
 # Blueprints
 webhook_verification_blueprint = Blueprint("webhook_verification_blueprint", __name__)
 
 
-@webhook_verification_blueprint.route("/", methods=["GET"])
+@webhook_verification_blueprint.route("/", methods=["GET", "POST"])
 def webhook_whatsapp():
     """__summary__: Get message from the webhook"""
     # made for whatsapp checking webhooks
@@ -16,6 +16,8 @@ def webhook_whatsapp():
     messages = current_app.whatsapp_client.unpack_messages(request.get_json()) 
     for message in messages: 
         parsed_message = message["text"]["body"] 
-        reply_message = current_app.ai_client.generate_reply(parsed_message)  
-        receiver_id = message["id"] 
-        current_app.whatsapp_client.send_message(reply_message, receiver_id)  
+        reply_message = current_app.ai_client.generate_reply(parsed_message)    
+        receiver_id = message["from"]   
+        current_app.whatsapp_client.send_message(reply_message, receiver_id)   
+
+    return jsonify({"status": "ok"}), 200 

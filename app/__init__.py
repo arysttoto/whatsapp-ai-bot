@@ -36,7 +36,7 @@ def create_app():
 
     @app.errorhandler(ValueError)
     def handle_value_error(e):
-        app.logger.warning(f"Validation error: {e}")
+        app.logger.warning(f"Validation error: {e}") 
         return jsonify({"error": str(e)}), 400
     
     # Dependency injections, services - AI, Whatsapp client
