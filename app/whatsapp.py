@@ -1,4 +1,5 @@
 import requests
+from app.errors import RetryableError
 
 
 class WhatsAppClient:
@@ -15,13 +16,12 @@ class WhatsAppClient:
             return request.args.get("hub.challenge") 
         raise PermissionError("Webhook verification token mismatch")
     
+
     def unpack_messages(self, json_request): 
-        messages = [] 
         try: 
-            messages = json_request["entry"][0]["changes"][0]["messages"] 
-        except Exception: 
-            pass
-        return messages 
+            return json_request["entry"][0]["changes"][0]["messages"] 
+        except (KeyError, IndexError, TypeError) as error: 
+            raise RetryableError(f"Error during json extraction: {error}") 
     
 
     def send_message(self, message_text, receiver_id): 
@@ -41,5 +41,13 @@ class WhatsAppClient:
                 "body": message_text
             }
         }
+        try: 
+            response = requests.post(url, headers=headers, json=payload) 
+            if not response.ok: 
+                if 500 <= response.status_code < 600:
+                    raise RetryableError(f"WhatsApp API 5xx error: {response.status_code}")
+                else:
+                    raise Exception(f"WhatsApp API non-retryable error: {response.status_code}") 
 
-        response = requests.post(url, headers=headers, json=payload) 
+        except requests.RequestException as error: 
+            raise RetryableError(f"Error sending message: {error}") 
