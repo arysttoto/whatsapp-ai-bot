@@ -19,7 +19,7 @@ class WhatsAppClient:
 
     def unpack_messages(self, json_request): 
         try: 
-            return json_request["entry"][0]["changes"][0]["messages"] 
+            return json_request["messages"] 
         except (KeyError, IndexError, TypeError) as error: 
             raise RetryableError(f"Error during json extraction: {error}") 
     
