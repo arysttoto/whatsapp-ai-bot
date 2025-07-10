@@ -1,6 +1,8 @@
 from app.ai_prompts import default_prompt
 import openai 
+from openai import OpenAIError
 from app.errors import RetryableError
+
 
 class AIClient:
     def __init__(self, api_key, model, temperature):
@@ -21,5 +23,5 @@ class AIClient:
             )
             return response["choices"][0]["message"]["content"].strip()
 
-        except openai.error.OpenAIError as error:
+        except OpenAIError as error:
             raise RetryableError(f"Error during AI response generation: {error}")

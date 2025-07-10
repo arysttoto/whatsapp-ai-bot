@@ -19,12 +19,12 @@ class WhatsAppClient:
 
     def unpack_messages(self, json_request): 
         try: 
-            return json_request["messages"] 
+            return json_request["entry"][0]["changes"][0]["value"]["messages"] 
         except (KeyError, IndexError, TypeError) as error: 
             raise RetryableError(f"Error during json extraction: {error}") 
     
 
-    def send_message(self, message_text, receiver_id): 
+    def send_message(self, message_text, receiver_phone_number): 
         from flask import current_app
 
         url = f"{self.api_url}/{self.phone_number_id}/messages"
@@ -36,7 +36,7 @@ class WhatsAppClient:
 
         payload = {
             "messaging_product": "whatsapp",
-            "to": receiver_id,
+            "to": receiver_phone_number,
             "type": "text",
             "text": {
                 "preview_url": False,
