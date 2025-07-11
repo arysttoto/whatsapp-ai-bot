@@ -6,7 +6,7 @@ from app.errors import RetryableError
 # Lazy imports are a very good practice in modular Flask applications, don't move them out of the function to avoid circular imports. 
 def create_app():
     app = Flask(__name__) 
-    app.config.from_object(Config)
+    app.config.from_object(Config) 
 
     # Logging config
     logging.basicConfig(

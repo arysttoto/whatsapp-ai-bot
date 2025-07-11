@@ -13,6 +13,7 @@ def webhook_whatsapp():
         return current_app.whatsapp_client.verify_webhook(request) 
     
     # unpack the webhook notifications, you can filter by update type later, this boilerplate is only for messages update
+    print(request.get_json())
     messages = current_app.whatsapp_client.unpack_messages(request.get_json()) 
     for message in messages: 
         parsed_message = message["text"]["body"] 

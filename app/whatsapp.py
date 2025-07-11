@@ -1,6 +1,9 @@
 import requests 
 from app.errors import RetryableError
 
+import phonenumbers
+from phonenumbers import PhoneNumberFormat, NumberParseException
+
 
 class WhatsAppClient:
     def __init__(self, api_url, webhook_verify_token, access_token, phone_number_id):
@@ -23,6 +26,10 @@ class WhatsAppClient:
         except (KeyError, IndexError, TypeError) as error: 
             raise RetryableError(f"Error during json extraction: {error}") 
     
+
+    def format_wa_phone_number(self, raw_wa_id: str) -> str:
+        pass
+        
 
     def send_message(self, message_text, receiver_phone_number): 
         from flask import current_app
@@ -54,3 +61,4 @@ class WhatsAppClient:
                 ) 
         except requests.RequestException as error: 
             raise RetryableError(f"Error sending message: {error}") 
+        
