@@ -48,7 +48,7 @@ class WhatsAppClient:
 
         Args:
             api_url (str): Base URL for WhatsApp Business API
-                          (e.g., "https://graph.facebook.com/v17.0")
+                          (e.g., "https://graph.facebook.com/v23.0")
             webhook_verify_token (str): Token used for webhook verification
             access_token (str): Access token for API authentication
             phone_number_id (str): WhatsApp phone number ID for sending messages

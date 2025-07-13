@@ -9,7 +9,6 @@ A production-ready Flask boilerplate for building WhatsApp bots powered by OpenA
 - **Modular Architecture**: Clean separation of concerns with dedicated modules
 - **Error Handling**: Comprehensive error handling with retry mechanisms
 - **Logging**: Structured logging with file and console output
-- **Command System**: Extensible slash command system for user interactions
 - **Configuration Management**: Environment-based configuration with dotenv
 - **Production Ready**: Proper error handling, logging, and modular design
 
@@ -21,8 +20,7 @@ whatsapp-ai-bot/
 │   ├── __init__.py          # Flask app factory and configuration
 │   ├── whatsapp.py          # WhatsApp Business API client
 │   ├── ai.py               # OpenAI integration client
-│   ├── routes.py           # Webhook endpoints
-│   ├── commands.py         # Command processing system
+│   ├── routes.py           # Webhook endpoints 
 │   ├── config.py           # Configuration management
 │   ├── errors.py           # Custom exception classes
 │   ├── ai_prompts.py       # AI prompt templates
@@ -106,10 +104,6 @@ whatsapp-ai-bot/
 - Handles both verification (GET) and message delivery (POST)
 - Orchestrates message processing flow
 
-#### 5. **Command System (`app/commands.py`)**
-- Processes slash commands (e.g., `/help`, `/start`)
-- Extensible framework for adding new commands
-- User-specific command handling
 
 ### Data Flow
 
@@ -119,24 +113,6 @@ whatsapp-ai-bot/
 4. **Message Sending**: `WhatsAppClient.send_message()` sends response back to user
 
 ## 🔧 Customization
-
-### Adding New Commands
-
-Extend the `CommandHandler` class in `app/commands.py`:
-
-```python
-def __init__(self):
-    self.commands = {
-        "help": self.help,
-        "start": self.start,
-        "weather": self.weather,  # New command
-    }
-
-def weather(self, args, user_id):
-    """Get weather information for a location."""
-    location = " ".join(args) if args else "default location"
-    return f"Weather for {location}: Sunny and 25°C"
-```
 
 ### Customizing AI Prompts
 
