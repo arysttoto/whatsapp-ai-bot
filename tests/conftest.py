@@ -1,8 +1,4 @@
 # Making sure correct root folder is specified, so app package will be seen 
-import os, sys
-parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(parent_dir)
-
 import pytest
 from app import create_app
 
