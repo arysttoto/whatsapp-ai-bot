@@ -16,6 +16,7 @@ Example:
 """
 
 from flask import Blueprint, current_app, request, jsonify
+from errors import RetryableError
 
 
 # Blueprints
@@ -53,11 +54,15 @@ def webhook_whatsapp():
         return current_app.whatsapp_client.verify_webhook(request) 
 
     # unpack the webhook notifications, you can filter by update type later, this boilerplate is only for messages update
-    messages = current_app.whatsapp_client.unpack_messages(request.get_json()) 
-    for message in messages: 
-        parsed_message = message["text"]["body"] 
-        reply_message = current_app.ai_client.generate_reply(parsed_message)    
-        receiver_phone_number = message["from"]   
-        current_app.whatsapp_client.send_message(reply_message, receiver_phone_number)   
-
+    # add the try except block to ensure error code is sent to whatsapp only once 
+    try:
+        messages = current_app.whatsapp_client.unpack_messages(request.get_json()) 
+        for message in messages: 
+            parsed_message = message["text"]["body"] 
+            reply_message = current_app.ai_client.generate_reply(parsed_message)    
+            receiver_phone_number = message["from"]   
+            current_app.whatsapp_client.send_message(reply_message, receiver_phone_number)   
+    except RetryableError as error: 
+        raise error 
+    
     return jsonify({"status": "ok"}), 200 

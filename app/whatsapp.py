@@ -106,18 +106,23 @@ class WhatsAppClient:
         Format WhatsApp phone number to international format.
 
         Converts WhatsApp phone number ID to properly formatted international
-        phone number format.
+        phone number format for Kazakhstan numbers.
 
         Args:
             raw_wa_id (str): Raw WhatsApp phone number ID
 
         Returns:
-            str: Formatted international phone number
+            str: Formatted international phone number for Kazakhstan numbers
 
         Note:
             This method is currently a placeholder and needs implementation.
         """
-        pass
+        try:
+            raw_wa_id = raw_wa_id[0] + str(8) + raw_wa_id[1:] 
+            return raw_wa_id 
+        except Exception as error:
+            raise RetryableError(f"Error during number formating: {error}") 
+    
 
     def send_message(self, message_text, receiver_phone_number): 
         """
@@ -144,7 +149,7 @@ class WhatsAppClient:
 
         payload = {
             "messaging_product": "whatsapp",
-            "to": receiver_phone_number,
+            "to": self.format_wa_phone_number(receiver_phone_number),
             "type": "text",
             "text": {
                 "preview_url": False,
