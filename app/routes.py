@@ -16,7 +16,7 @@ Example:
 """
 
 from flask import Blueprint, current_app, request, jsonify
-from errors import RetryableError
+from app.errors import RetryableError
 
 
 # Blueprints

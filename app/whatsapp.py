@@ -58,6 +58,7 @@ class WhatsAppClient:
         self.access_token = access_token
         self.phone_number_id = phone_number_id
 
+
     def verify_webhook(self, request): 
         """
         Verify webhook from WhatsApp Business API.
@@ -79,6 +80,7 @@ class WhatsAppClient:
             return request.args.get("hub.challenge") 
         raise PermissionError("Webhook verification token mismatch")
 
+
     def unpack_messages(self, json_request): 
         """
         Extract messages from WhatsApp webhook JSON payload.
@@ -97,9 +99,14 @@ class WhatsAppClient:
             RetryableError: If JSON structure is invalid or missing expected fields
         """
         try: 
-            return json_request["entry"][0]["changes"][0]["value"]["messages"] 
+            update_payload = json_request["entry"][0]["changes"][0]["value"]
+            if "messages" in update_payload: 
+                return update_payload["messages"] 
+            else: 
+                return [] 
         except (KeyError, IndexError, TypeError) as error: 
             raise RetryableError(f"Error during json extraction: {error}") 
+
 
     def format_wa_phone_number(self, raw_wa_id: str) -> str:
         """
