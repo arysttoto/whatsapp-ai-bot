@@ -13,7 +13,7 @@ The client supports:
 
 Example:
     client = WhatsAppClient(
-        api_url="https://graph.facebook.com/v17.0",
+        api_url="https://graph.facebook.com/v23.0",
         webhook_verify_token="your_verify_token",
         access_token="your_access_token",
         phone_number_id="your_phone_number_id"
