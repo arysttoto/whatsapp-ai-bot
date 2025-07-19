@@ -1,0 +1,40 @@
+{
+    "fake_object": "whatsapp_business_account",
+    "fake_entry": [
+      {
+        "fake_id": "123456789012345",
+        "fake_changes": [
+          {
+            "fake_value": {
+              "messaging_product": "whatsapp",
+              "metadata": {
+                "display_phone_number": "12345678900",
+                "phone_number_id": "987654321098765"
+              },
+              "fake_contacts": [
+                {
+                  "profile": {
+                    "name": "John Doe"
+                  },
+                  "wa_id": "70000000000"
+                }
+              ],
+              "fake_messages": [
+                {
+                  "from": "70000000000",
+                  "id": "wamid.FAKE1234567890FAKE1234567890FAKE1234",
+                  "timestamp": "1752766753",
+                  "text": {
+                    "body": "hey"
+                  },
+                  "type": "text"
+                }
+              ]
+            },
+            "fake_field": "messages"
+          }
+        ]
+      }
+    ]
+  }
+  

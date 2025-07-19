@@ -58,7 +58,6 @@ class WhatsAppClient:
         self.access_token = access_token
         self.phone_number_id = phone_number_id
 
-
     def verify_webhook(self, request): 
         """
         Verify webhook from WhatsApp Business API.
@@ -79,7 +78,6 @@ class WhatsAppClient:
         if request.args.get("hub.verify_token") == self.webhook_verify_token:
             return request.args.get("hub.challenge") 
         raise PermissionError("Webhook verification token mismatch")
-
 
     def unpack_messages(self, json_request): 
         """
@@ -107,7 +105,6 @@ class WhatsAppClient:
         except (KeyError, IndexError, TypeError) as error: 
             raise RetryableError(f"Error during json extraction: {error}") 
 
-
     def format_wa_phone_number(self, raw_wa_id: str) -> str:
         """
         Format WhatsApp phone number to international format.
@@ -129,7 +126,6 @@ class WhatsAppClient:
             return raw_wa_id 
         except Exception as error:
             raise RetryableError(f"Error during number formating: {error}") 
-    
 
     def send_message(self, message_text, receiver_phone_number): 
         """
