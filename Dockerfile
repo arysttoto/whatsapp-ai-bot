@@ -1,18 +1,12 @@
-# Use a lightweight base image
-FROM python:3.11-slim
+FROM python:3.11.4-slim
 
-# Set working directory
-WORKDIR /app 
+WORKDIR /app
 
-# Install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the app
 COPY . .
 
-# Set environment variables (can be overridden at runtime)
-ENV PYTHONUNBUFFERED=1
+EXPOSE 5050
 
-# Run the app
-CMD ["python", "app/main.py"] 
+CMD ["flask", "run"] 
