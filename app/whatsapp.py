@@ -162,8 +162,14 @@ class WhatsAppClient:
                 if 500 <= response.status_code < 600:
                     raise RetryableError(f"WhatsApp API 5xx error: {response.status_code}")
 
+                elif 400 <= response.status_code < 500:
+                    raise ValueError(
+                        f"WhatsApp API client error ({response.status_code}): {response.text}"
+                    )
+
                 current_app.logger.warning(
-                    f"WhatsApp API non-retryable error ({response.status_code}): {response.text}"
-                ) 
+                    f"WhatsApp API unexpected error ({response.status_code}): {response.text}"
+                )
+
         except requests.RequestException as error: 
             raise RetryableError(f"Error sending message: {error}") 

@@ -15,19 +15,15 @@ with open(
     correct_json_message_data = json.load(json_file)
 
 
-def test_send_message_with_wrong_number(client, webhook_credentials, caplog):
+def test_send_message_with_wrong_number(client, webhook_credentials):
     # testing when a phone number is wrong
-    with caplog.at_level("WARNING"):
-        response = client.post(
-            "/",
-            query_string=webhook_credentials,
-            json=json_message_data,
-        )
+    response = client.post(
+        "/",
+        query_string=webhook_credentials,
+        json=json_message_data,
+    )
 
-    # use caplog to capture apps logs
-    logs = caplog.text
-    assert response.status_code == 200
-    assert "WhatsApp API non-retryable error" in logs
+    assert response.status_code >= 400 and response.status_code < 500
 
 
 def test_send_message_with_correct_number(client, webhook_credentials):
