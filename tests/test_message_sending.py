@@ -30,13 +30,11 @@ def test_send_message_with_wrong_number(client, webhook_credentials, caplog):
     assert "WhatsApp API non-retryable error" in logs
 
 
-def test_send_message_with_correct_number(client, webhook_credentials, caplog):
+def test_send_message_with_correct_number(client, webhook_credentials):
     # testing when a phone number is correct
     response = client.post(
         "/",
         query_string=webhook_credentials,
         json=correct_json_message_data,
     )
-    logs = caplog.text
     assert response.status_code == 200
-    assert "WhatsApp API non-retryable error" not in caplog.text

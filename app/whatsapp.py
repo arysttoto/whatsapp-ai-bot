@@ -154,10 +154,7 @@ class WhatsAppClient:
             "messaging_product": "whatsapp",
             "to": self.format_wa_phone_number(receiver_phone_number),
             "type": "text",
-            "text": {
-                "preview_url": False,
-                "body": message_text
-            }
+            "text": {"preview_url": False, "body": message_text},
         }
         try: 
             response = requests.post(url, headers=headers, json=payload) 
