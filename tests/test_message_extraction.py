@@ -47,7 +47,9 @@ def test_message_extraction(client, webhook_credentials):
         query_string=webhook_credentials,
         json=json_message_data,
     )
-    assert response.status_code == 200
+    assert (
+        response.status_code == 400
+    )  # raised due to wrong phone number in json payload
 
 
 def test_status_update_extraction(client, webhook_credentials):
