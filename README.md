@@ -14,22 +14,24 @@ A production-ready Flask boilerplate for building WhatsApp bots powered by OpenA
 
 ## 📁 Project Structure
 
-```
 whatsapp-ai-bot/
 ├── app/
-│   ├── __init__.py          # Flask app factory and configuration
-│   ├── whatsapp.py          # WhatsApp Business API client
-│   ├── ai.py               # OpenAI integration client
-│   ├── routes.py           # Webhook endpoints 
-│   ├── config.py           # Configuration management
-│   ├── errors.py           # Custom exception classes
-│   ├── ai_prompts.py       # AI prompt templates
-│   └── main.py             # Application entry point
-├── logs/                   # Application logs
-├── tests/                  # Test files
-├── requirements.txt        # Python dependencies
-└── README.md              # This file
-```
+│   ├── __init__.py          # Flask app factory
+│   ├── whatsapp.py          # WhatsApp API integration
+│   ├── ai.py                # OpenAI integration
+│   ├── routes.py            # Webhook endpoints
+│   ├── config.py            # Environment-based config
+│   ├── errors.py            # Custom exceptions
+│   ├── ai_prompts.py        # Prompt templates
+│   └── main.py              # App entry point
+├── tests/                   # Unit and integration tests
+├── logs/                    # App logs
+├── .env                     # Environment variables
+├── Dockerfile               # Docker build file
+├── Makefile                 # Common development tasks
+├── requirements.txt         # Dependencies
+└── README.md                # This file
+
 
 ## 🛠️ Installation
 
@@ -54,7 +56,7 @@ whatsapp-ai-bot/
    Create a `.env` file in the root directory:
    ```env
    # WhatsApp Business API Configuration
-   WHATSAPP_API_URL=https://graph.facebook.com/v17.0
+   WHATSAPP_API_URL=https://graph.facebook.com/v23.0
    WHATSAPP_WEBHOOK_VERIFY_TOKEN=your_webhook_verify_token
    WHATSAPP_ACCESS_TOKEN=your_whatsapp_access_token
    WHATSAPP_PHONE_NUMBER_ID=your_phone_number_id
@@ -63,13 +65,19 @@ whatsapp-ai-bot/
    OPENAI_API_KEY=your_openai_api_key
    OPENAI_MODEL=gpt-3.5-turbo
    OPENAI_TEMPERATURE=0.7
+
+   # Flask Configuration
+   FLASK_APP=app/main.py 
+   FLASK_RUN_HOST=0.0.0.0
+   FLASK_ENV=development 
+   FLASK_RUN_PORT=5050
    ```
 
 ## 🚀 Quick Start
 
 1. **Run the development server**:
    ```bash
-   python app/main.py
+   flask run
    ```
 
 2. **Set up WhatsApp webhook**:
@@ -161,28 +169,23 @@ The application logs to both console and file (`logs/app.log`). Log levels inclu
 
 ## 🚀 Production Deployment
 
-### Using Gunicorn
-
-```bash
-pip install gunicorn
-gunicorn app.main:app --bind 0.0.0.0:8000 --workers 4
-```
-
 ### Using Docker
 
 Create a `Dockerfile`:
 
 ```dockerfile
-FROM python:3.9-slim
+FROM python:3.11.4-slim
 
 WORKDIR /app
+
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
-EXPOSE 8000
 
-CMD ["gunicorn", "app.main:app", "--bind", "0.0.0.0:8000"]
+EXPOSE 5050
+
+CMD ["flask", "run"] 
 ```
 
 ## 🔒 Security Considerations

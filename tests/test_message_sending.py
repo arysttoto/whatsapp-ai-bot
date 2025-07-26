@@ -23,7 +23,7 @@ def test_send_message_with_wrong_number(client, webhook_credentials):
         json=json_message_data,
     )
 
-    assert response.status_code >= 400 and response.status_code < 500
+    assert response.status_code == 400
 
 
 def test_send_message_with_correct_number(client, webhook_credentials):
