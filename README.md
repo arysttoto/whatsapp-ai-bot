@@ -13,7 +13,7 @@ A production-ready Flask boilerplate for building WhatsApp bots powered by OpenA
 - **Production Ready**: Proper error handling, logging, and modular design
 
 ## 📁 Project Structure
-
+```
 whatsapp-ai-bot/
 ├── app/
 │   ├── __init__.py          # Flask app factory
@@ -31,7 +31,7 @@ whatsapp-ai-bot/
 ├── Makefile                 # Common development tasks
 ├── requirements.txt         # Dependencies
 └── README.md                # This file
-
+```
 
 ## 🛠️ Installation
 
